@@ -64,12 +64,32 @@ void Unit::newTurn(){
 }
 
 
+bool Unit::isDead(){
+    return (hp <= 0) ? true : false;
+}
 
-/////////////////////////////////////////////////////////////////////////////////////
-//Write function members isDead(), guard(), heal(), beAttacked(), and attack() here//
-/////////////////////////////////////////////////////////////////////////////////////
+void Unit::guard(){
+    guard_on = true;
+}
 
+int Unit::heal(){
+	int amount = rand() % 21 + 10;
+	amount = (amount > hpmax - hp) ? hpmax - hp : amount;
+	hp += amount;
+	return amount;
+}
 
+int Unit::beAttacked(int oppatk){
+    int total;
+    if(guard_on == true) total = (oppatk - def)/3;
+    else total = oppatk - def;
+    hp -= total;
+    return total;
+}
+
+int Unit::attack(Unit & target){
+	return target.beAttacked(atk);
+}
 
 void drawScene(char p_action,int p,char m_action,int m){
 	cout << "                                                       \n";
